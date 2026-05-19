@@ -637,3 +637,72 @@ footer .copyright {
         margin-bottom: 25px;
     }
 }
+
+/* =============================
+RECENTLY VIEWED
+============================= */
+
+#recently-viewed{
+    text-align: center;
+}
+
+#recently-viewed .pro-container{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+#recently-viewed .pro{
+    width: 23%;
+    min-width: 250px;
+    border: 1px solid #cce7d0;
+    border-radius: 20px;
+    padding: 12px;
+    position: relative;
+    transition: 0.3s ease;
+    cursor: pointer;
+    background: #fff;
+}
+
+#recently-viewed .pro:hover{
+    transform: translateY(-6px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+}
+
+#recently-viewed .pro img{
+    width: 100%;
+    border-radius: 15px;
+}
+
+#recently-viewed .des{
+    text-align: start;
+    padding: 12px 0;
+}
+
+#recently-viewed .des span{
+    color: #606063;
+    font-size: 12px;
+}
+
+#recently-viewed .des h5{
+    padding-top: 8px;
+    color: #1a1a1a;
+    font-size: 15px;
+}
+
+#recently-viewed .des h4{
+    padding-top: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #088178;
+}
+
+@media(max-width:799px){
+
+    #recently-viewed .pro{
+        width: 100%;
+    }
+
+}

@@ -28,12 +28,12 @@
 
     <section id="product-details" class="section-p1">
 
-        <!-- Left -->
+        <!-- Product Images -->
 
         <div class="single-product-image">
 
             <img
-                src="../assets/images/f1.jpg"
+                src=""
                 width="100%"
                 id="main-product-image"
                 alt="Product"
@@ -44,7 +44,7 @@
                 <div class="small-image-col">
 
                     <img
-                        src="../assets/images/f1.jpg"
+                        src=""
                         class="small-image"
                         alt=""
                     >
@@ -54,7 +54,7 @@
                 <div class="small-image-col">
 
                     <img
-                        src="../assets/images/f2.jpg"
+                        src=""
                         class="small-image"
                         alt=""
                     >
@@ -64,7 +64,7 @@
                 <div class="small-image-col">
 
                     <img
-                        src="../assets/images/f3.jpg"
+                        src=""
                         class="small-image"
                         alt=""
                     >
@@ -74,7 +74,7 @@
                 <div class="small-image-col">
 
                     <img
-                        src="../assets/images/f4.jpg"
+                        src=""
                         class="small-image"
                         alt=""
                     >
@@ -85,33 +85,125 @@
 
         </div>
 
-        <!-- Right -->
+        <!-- Product Content -->
 
         <div class="single-product-details">
 
-            <h6>Home / T-Shirt</h6>
+            <h6 id="product-category">
 
-            <h4>Men's Fashion T Shirt</h4>
+                Home / Product
 
-            <h2>₹999</h2>
+            </h6>
 
-            <select>
+            <h4 id="product-name">
 
-                <option>Select Size</option>
+                Product Name
 
-                <option>XL</option>
+            </h4>
 
-                <option>XXL</option>
+            <h2 id="product-price">
 
-                <option>Small</option>
+                ₹0
 
-                <option>Large</option>
+            </h2>
 
-            </select>
+            <!-- SIZE VARIANTS -->
+
+            <div class="variant-section">
+            
+                <h4>Select Size</h4>
+            
+                <div class="size-options">
+                
+                    <button
+                        class="size-btn active-size"
+                        data-size="M"
+                    >
+                        M
+                    </button>
+                
+                    <button
+                        class="size-btn"
+                        data-size="L"
+                    >
+                        L
+                    </button>
+                
+                    <button
+                        class="size-btn"
+                        data-size="XL"
+                    >
+                        XL
+                    </button>
+                
+                    <button
+                        class="size-btn"
+                        data-size="XXL"
+                    >
+                        XXL
+                    </button>
+                
+                </div>
+            
+            </div>
+
+            <!-- COLOR VARIANTS -->
+
+            <div class="variant-section">
+            
+                <h4>Select Color</h4>
+            
+                <div class="color-options">
+                
+                    <button
+                        class="color-btn active-color"
+                        data-color="Black"
+                        style="background:black;"
+                    ></button>
+                
+                    <button
+                        class="color-btn"
+                        data-color="Blue"
+                        style="background:blue;"
+                    ></button>
+                
+                    <button
+                        class="color-btn"
+                        data-color="Red"
+                        style="background:red;"
+                    ></button>
+                
+                    <button
+                        class="color-btn"
+                        data-color="White"
+                        style="background:white;border:1px solid #ccc;"
+                    ></button>
+                
+                </div>
+            
+            </div>
+
+            <!-- VARIANT STOCK -->
+
+            <p class="variant-stock">
+            
+                Available Stock:
+            
+                <span id="variant-stock">
+                
+                    12
+                
+                </span>
+            
+            </p>
 
             <div class="quantity-box">
 
-                <button id="minus-btn">-</button>
+                <button id="minus-btn">
+
+                    -
+
+                </button>
 
                 <input
                     type="number"
@@ -120,200 +212,136 @@
                     min="1"
                 >
 
-                <button id="plus-btn">+</button>
+                <button id="plus-btn">
+
+                    +
+
+                </button>
 
             </div>
 
-            <button id="add-to-cart-btn">
+            <div class="product-buttons">
 
-                Add To Cart
+                <button id="add-to-cart-btn">
 
-            </button>
+                    Add To Cart
 
-            <button id="wishlist-btn">
+                </button>
 
-                <i class="fas fa-heart"></i>
+                <button id="buy-now-btn">
 
-                Add To Wishlist
+                    Buy Now
 
-            </button>
+                </button>
 
+                <button id="wishlist-btn">
+
+                    <i class="fas fa-heart"></i>
+
+                    Wishlist
+
+                </button>
+
+            </div>
+
+            <div class="product-meta">
+                <p>
+                    <strong>Brand:</strong>
+                    <span id="product-brand">
+                        Brand
+                    </span>
+                </p>
+                <p>
+                    <strong>Stock:</strong>
+                    <span id="product-stock">
+                        In Stock
+                    </span>
+                </p>
+            </div>
             <h4>Product Details</h4>
-
-            <span>
-                Premium quality cotton t-shirt with
-                modern fit and breathable fabric.
-                Designed for comfort and everyday
-                fashion styling.
+            <span id="product-description">
+                Product Description
             </span>
 
             <!-- Rating -->
-
             <div class="product-rating">
-
                 <i class="fas fa-star"></i>
-
                 <i class="fas fa-star"></i>
-
                 <i class="fas fa-star"></i>
-
                 <i class="fas fa-star"></i>
-
                 <i class="fas fa-star-half-alt"></i>
-
-                <span>(4.5 Ratings)</span>
-
+                <span id="product-rating-text">
+                    (4.5 Ratings)
+                </span>
             </div>
-
         </div>
-
     </section>
 
     <!-- Reviews -->
-
     <section id="reviews" class="section-p1">
-
         <h2>Customer Reviews</h2>
+        <!-- Review Form -->
+        <form id="review-form">
+            <input
+                type="text"
+                id="review-name"
+                placeholder="Your Name"
+                required
+            >
+            <select id="review-rating">
+                <option value="5">
+                    5 Stars
+                </option>
+                <option value="4">
+                    4 Stars
+                </option>
+                <option value="3">
+                    3 Stars
+                </option>
+                <option value="2">
+                    2 Stars
+                </option>
+                <option value="1">
+                    1 Star
+                </option>
+            </select>
+            <textarea
+                id="review-comment"
+                placeholder="Write your review"
+                required
+            ></textarea>
+            <button type="submit">
+                Submit Review
+            </button>
+        </form>
 
-        <div class="review-container">
-
-            <div class="review-box">
-
-                <h4>Rahul Sharma</h4>
-
-                <p>
-                    Amazing quality and fast delivery.
-                    Loved the fabric quality.
-                </p>
-
-            </div>
-
-            <div class="review-box">
-
-                <h4>Priya Verma</h4>
-
-                <p>
-                    Stylish and comfortable product.
-                    Worth the price.
-                </p>
-
-            </div>
-
-        </div>
-
+        <!-- Dynamic Reviews -->
+        <div
+            class="review-container"
+            id="review-container"
+        ></div>
     </section>
 
     <!-- Related Products -->
-
     <section id="related-products" class="section-p1">
-
         <h2>Related Products</h2>
-
         <p>You may also like</p>
+        <div
+            class="pro-container"
+            id="related-products-container"
+        ></div>
+    </section>
 
-        <div class="pro-container">
-
-            <div class="pro">
-
-                <img
-                    src="../assets/images/f5.jpg"
-                    alt=""
-                >
-
-                <div class="des">
-
-                    <span>AnthropicBots</span>
-
-                    <h5>Casual Shirt</h5>
-
-                    <div class="star">
-
-                        <i class="fas fa-star"></i>
-
-                        <i class="fas fa-star"></i>
-
-                        <i class="fas fa-star"></i>
-
-                        <i class="fas fa-star"></i>
-
-                        <i class="fas fa-star"></i>
-
-                    </div>
-
-                    <h4>₹899</h4>
-
-                </div>
-
-            </div>
-
-            <div class="pro">
-
-                <img
-                    src="../assets/images/f6.jpg"
-                    alt=""
-                >
-
-                <div class="des">
-
-                    <span>AnthropicBots</span>
-
-                    <h5>Modern Hoodie</h5>
-
-                    <div class="star">
-
-                        <i class="fas fa-star"></i>
-
-                        <i class="fas fa-star"></i>
-
-                        <i class="fas fa-star"></i>
-
-                        <i class="fas fa-star"></i>
-
-                        <i class="fas fa-star"></i>
-
-                    </div>
-
-                    <h4>₹1299</h4>
-
-                </div>
-
-            </div>
-
-            <div class="pro">
-
-                <img
-                    src="../assets/images/f7.jpg"
-                    alt=""
-                >
-
-                <div class="des">
-
-                    <span>AnthropicBots</span>
-
-                    <h5>Classic T Shirt</h5>
-
-                    <div class="star">
-
-                        <i class="fas fa-star"></i>
-
-                        <i class="fas fa-star"></i>
-
-                        <i class="fas fa-star"></i>
-
-                        <i class="fas fa-star"></i>
-
-                        <i class="fas fa-star"></i>
-
-                    </div>
-
-                    <h4>₹799</h4>
-
-                </div>
-
-            </div>
-
-        </div>
-
+    <!-- Recommended Products -->
+    <section id="recommended-products" class="section-p1">
+        <h2>Recommended For You</h2>
+        <p>
+            Smart recommendations based on your interests
+        </p>
+        <div
+            class="pro-container"
+            id="recommended-products-container"
+        ></div>
     </section>
 
     <div id="footer"></div>

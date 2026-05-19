@@ -118,39 +118,68 @@ updateCartCount();
 // =============================
 // PRODUCT QUICK VIEW
 // =============================
-document.querySelectorAll(".pro img").forEach((img) => {
-img.addEventListener("click", () => {
-const modal = document.createElement("div");
-modal.style.cssText = `       position:fixed;
-      inset:0;
-      background:rgba(0,0,0,0.7);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      z-index:9999;
-    `;
+document
+.querySelectorAll(".pro img")
+.forEach((img) => {
 
-```
-const box = document.createElement("div");
-box.style.cssText = `
-  background:white;
-  padding:20px;
-  border-radius:10px;
-  text-align:center;
-`;
+    img.addEventListener(
+        "click",
+        () => {
 
-const big = document.createElement("img");
-big.src = img.src;
-big.style.width = "300px";
+            const modal =
+                document.createElement(
+                    "div"
+                );
 
-box.appendChild(big);
-modal.appendChild(box);
-document.body.appendChild(modal);
+            modal.style.cssText = `
+                position:fixed;
+                inset:0;
+                background:rgba(0,0,0,0.7);
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                z-index:9999;
+            `;
 
-modal.onclick = () => modal.remove();
-```
+            const box =
+                document.createElement(
+                    "div"
+                );
 
-});
+            box.style.cssText = `
+                background:white;
+                padding:20px;
+                border-radius:10px;
+                text-align:center;
+            `;
+
+            const big =
+                document.createElement(
+                    "img"
+                );
+
+            big.src = img.src;
+
+            big.style.width =
+                "300px";
+
+            box.appendChild(big);
+
+            modal.appendChild(box);
+
+            document.body.appendChild(
+                modal
+            );
+
+            modal.onclick = () => {
+
+                modal.remove();
+
+            };
+
+        }
+    );
+
 });
 
 // =============================
@@ -327,8 +356,17 @@ document.body.appendChild(sortBtn);
 
 let asc = true;
 sortBtn.onclick = () => {
-const container = document.querySelector(".pro-container");
-const items = Array.from(container.children);
+const container =
+    document.querySelector(
+        ".pro-container"
+    );
+
+if(!container) return;
+
+const items =
+    Array.from(
+        container.children
+    );
 
 items.sort((a, b) => {
 const priceA = parseInt(a.querySelector("h4").innerText.replace(/\D/g,""));
@@ -836,12 +874,31 @@ document.querySelectorAll(".pro").forEach(card=>{
   stockTag.innerText="Stock Left: "+stock;
   card.appendChild(stockTag);
 
-  card.querySelector(".cart").onclick=(e)=>{
-    e.preventDefault();
-    if(stock<=0) return showToast("Out of Stock ❌");
-    stock--;
-    stockTag.innerText="Stock Left: "+stock;
-  };
+  const cartButton =
+      card.querySelector(".cart");
+
+  if(cartButton){
+
+      cartButton.onclick = (e) => {
+
+          e.preventDefault();
+
+          if(stock <= 0){
+
+              return showToast(
+                  "Out of Stock ❌"
+              );
+
+          }
+
+          stock--;
+
+          stockTag.innerText =
+              "Stock Left: " + stock;
+
+      };
+
+  }
 });
 
 
@@ -912,5 +969,168 @@ function trackFPS(){
 }
 trackFPS();
 
-
 console.log("🔥 ULTRA FINAL SYSTEM LOADED SUCCESSFULLY 🔥");
+
+// =============================
+// RECENTLY VIEWED PRODUCTS
+// =============================
+
+const recentlyViewedContainer =
+    document.getElementById(
+        "recently-viewed-container"
+    );
+
+if(recentlyViewedContainer){
+    const recentlyViewed =
+        JSON.parse(
+            localStorage.getItem(
+                "recentlyViewed"
+            )
+        ) || [];
+
+    if(recentlyViewed.length === 0){
+        recentlyViewedContainer.innerHTML = `
+            <p>
+                No recently viewed products yet.
+            </p>
+        `;
+
+    }else{
+        recentlyViewed.forEach((product) => {
+            const card =
+                document.createElement("div");
+            card.classList.add("pro");
+
+            card.innerHTML = `
+                <img
+                    src="${product.image}"
+                    alt="${product.name}"
+                >
+                <div class="des">
+                    <span>
+                        ${product.brand}
+                    </span>
+                    <h5>
+                        ${product.name}
+                    </h5>
+                    <h4>
+                        ₹${product.price}
+                    </h4>
+                </div>
+            `;
+
+            card.addEventListener(
+                "click",
+                () => {
+                    localStorage.setItem(
+                        "selectedProduct",
+                        JSON.stringify(product)
+                    );
+                    window.location.href =
+                        "product.html";
+                }
+            );
+            recentlyViewedContainer
+            .appendChild(card);
+        });
+    }
+}
+
+// =============================
+// FEATURED PRODUCTS
+// =============================
+
+const featuredContainer =
+    document.getElementById(
+        "featured-products-container"
+    );
+
+if(featuredContainer){
+
+    const adminProducts =
+        JSON.parse(
+            localStorage.getItem(
+                "adminProducts"
+            )
+        ) || [];
+
+    const featuredProducts =
+        adminProducts.filter(
+            (product) =>
+                product.featured === true
+        );
+
+    if(featuredProducts.length === 0){
+
+        featuredContainer.innerHTML = `
+            <p>
+                No featured products available.
+            </p>
+        `;
+
+    }else{
+
+        featuredProducts.forEach((product) => {
+
+            const card =
+                document.createElement("div");
+
+            card.classList.add("pro");
+
+            card.innerHTML = `
+                <img
+                    src="${product.image}"
+                    alt="${product.name}"
+                >
+
+                <div class="des">
+
+                    <span>
+                        ${product.brand}
+                    </span>
+
+                    <h5>
+                        ${product.name}
+                    </h5>
+
+                    <div class="star">
+
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+
+                    </div>
+
+                    <h4>
+                        ₹${product.price}
+                    </h4>
+
+                </div>
+            `;
+
+            card.addEventListener(
+                "click",
+                () => {
+
+                    localStorage.setItem(
+                        "selectedProduct",
+                        JSON.stringify(product)
+                    );
+
+                    window.location.href =
+                        "product.html";
+
+                }
+            );
+
+            featuredContainer.appendChild(
+                card
+            );
+
+        });
+
+    }
+
+}

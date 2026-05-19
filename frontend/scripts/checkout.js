@@ -158,7 +158,6 @@ checkoutForm.addEventListener(
             ) || [];
 
         const order = {
-
             id:
                 "ORD-" +
                 Date.now(),
@@ -167,8 +166,10 @@ checkoutForm.addEventListener(
                 new Date()
                 .toLocaleString(),
 
-            items: cart
+            status:
+                "Pending",
 
+            items: cart        
         };
 
         orders.push(order);
@@ -176,6 +177,46 @@ checkoutForm.addEventListener(
         localStorage.setItem(
             "orders",
             JSON.stringify(orders)
+        );
+
+        // =============================
+        // REDUCE PRODUCT STOCK
+        // =============================
+            
+        let adminProducts =
+            JSON.parse(
+                localStorage.getItem(
+                    "adminProducts"
+                )
+            ) || [];
+        
+        cart.forEach((cartItem) => {
+        
+            const product =
+                adminProducts.find(
+                    (item) =>
+                        item.name ===
+                        cartItem.name
+                );
+            
+            if(product){
+            
+                product.stock -=
+                    cartItem.qty;
+            
+                if(product.stock < 0){
+                
+                    product.stock = 0;
+                
+                }
+            
+            }
+        
+        });
+        
+        localStorage.setItem(
+            "adminProducts",
+            JSON.stringify(adminProducts)
         );
 
         localStorage.removeItem(
@@ -187,7 +228,7 @@ checkoutForm.addEventListener(
         );
 
         window.location.href =
-            "dashboard.html#orders";
+            "order.html";
 
     }
 );

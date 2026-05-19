@@ -116,26 +116,54 @@ productForm.addEventListener(
 
             id: Date.now(),
 
+            brand: "AnthropicBots",
+
+            category:
+                document.getElementById(
+                    "product-category"
+                ).value,
+            
             name:
                 document.getElementById(
                     "product-name"
                 ).value,
-
+            
             price:
-                document.getElementById(
-                    "product-price"
-                ).value,
-
+                parseInt(
+                    document.getElementById(
+                        "product-price"
+                    ).value
+                ),
+            
             description:
                 document.getElementById(
                     "product-description"
                 ).value,
-
+            
             image:
                 document.getElementById(
                     "product-image"
-                ).value
-
+                ).value,
+            
+            stock:
+                parseInt(
+                    document.getElementById(
+                        "product-stock"
+                    ).value
+                ),
+            
+            status:
+                document.getElementById(
+                    "product-status"
+                ).value,
+            
+            featured:
+                document.getElementById(
+                    "featured-product"
+                ).checked,
+            
+            rating: 4.5
+            
         };
 
         products.push(product);
@@ -177,20 +205,96 @@ function renderProducts(){
             </td>
 
             <td>
+                ${product.category}
+            </td>
+
+            <td>
                 ₹${product.price}
             </td>
 
             <td>
+                ${product.stock}
+            </td>
 
+            <td>
+
+                <span class="
+                    stock-badge
+                    ${
+                        product.status === "In Stock"
+                        ? "in-stock"
+                        : product.status === "Out Of Stock"
+                        ? "out-stock"
+                        : "hidden-stock"
+                    }
+                ">
+                
+                    ${product.status}
+                
+                </span>
+                
+            </td>
+                
+            <td>
+                
+                ${
+                    product.featured
+                    ? `
+                        <span class="featured-badge">
+                            Featured
+                        </span>
+                    `
+                    : "—"
+                }
+            
+            </td>
+            
+            <td>
+            
+                <div class="inventory-controls">
+            
+                    <button
+                        class="action-btn"
+                        onclick="increaseStock(${product.id})"
+                    >
+            
+                        +
+            
+                    </button>
+            
+                    <button
+                        class="action-btn delete-btn"
+                        onclick="decreaseStock(${product.id})"
+                    >
+            
+                        -
+            
+                    </button>
+            
+                </div>
+            
+            </td>
+            
+            <td>
+            
+                <button
+                    class="action-btn edit-btn"
+                    onclick="editProduct(${product.id})"
+                >
+            
+                    Edit
+            
+                </button>
+            
                 <button
                     class="action-btn delete-btn"
                     onclick="deleteProduct(${product.id})"
                 >
-
+            
                     Delete
-
+            
                 </button>
-
+            
             </td>
         `;
 
@@ -226,6 +330,63 @@ function deleteProduct(id){
 }
 
 // =============================
+// INCREASE STOCK
+// =============================
+
+function increaseStock(id){
+
+    const product =
+        products.find(
+            (item) =>
+                item.id === id
+        );
+
+    if(product){
+
+        product.stock++;
+
+    }
+
+    localStorage.setItem(
+        "adminProducts",
+        JSON.stringify(products)
+    );
+
+    renderProducts();
+
+}
+
+// =============================
+// DECREASE STOCK
+// =============================
+
+function decreaseStock(id){
+
+    const product =
+        products.find(
+            (item) =>
+                item.id === id
+        );
+
+    if(
+        product &&
+        product.stock > 0
+    ){
+
+        product.stock--;
+
+    }
+
+    localStorage.setItem(
+        "adminProducts",
+        JSON.stringify(products)
+    );
+
+    renderProducts();
+
+}
+
+// =============================
 // RENDER ORDERS
 // =============================
 
@@ -257,6 +418,70 @@ function renderOrders(){
         );
 
     });
+
+}
+
+// =============================
+// EDIT PRODUCT
+// =============================
+
+function editProduct(id){
+
+    const product =
+        products.find(
+            (item) =>
+                item.id === id
+        );
+
+    if(!product) return;
+
+    const newName =
+        prompt(
+            "Edit Product Name",
+            product.name
+        );
+
+    const newPrice =
+        prompt(
+            "Edit Product Price",
+            product.price
+        );
+
+    const newStock =
+        prompt(
+            "Edit Product Stock",
+            product.stock
+        );
+
+    if(
+        newName &&
+        newPrice &&
+        newStock
+    ){
+
+        product.name =
+            newName;
+
+        product.price =
+            parseInt(newPrice);
+
+        product.stock =
+            parseInt(newStock);
+
+        localStorage.setItem(
+            "adminProducts",
+            JSON.stringify(products)
+        );
+
+        renderProducts();
+
+        renderStats();
+
+        alert(
+            "Product updated successfully!"
+        );
+
+    }
 
 }
 

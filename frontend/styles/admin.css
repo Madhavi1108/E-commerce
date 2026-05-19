@@ -149,3 +149,68 @@ table td{
     }
 
 }
+
+/* =============================
+ADVANCED ADMIN PANEL
+============================= */
+
+#product-category,
+#product-stock,
+#product-status{
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    outline: none;
+    background: #fff;
+}
+
+.featured-toggle{
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.featured-toggle label{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.stock-badge{
+    padding: 6px 12px;
+    border-radius: 20px;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.in-stock{
+    background: #088178;
+}
+
+.out-stock{
+    background: red;
+}
+
+.hidden-stock{
+    background: #555;
+}
+
+.featured-badge{
+    background: gold;
+    color: #222;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.edit-btn{
+    background: #088178;
+    margin-right: 10px;
+}
+
+.inventory-controls{
+    display: flex;
+    gap: 10px;
+}
