@@ -319,21 +319,23 @@ const apiRequest =
         const controller =
             new AbortController();
 
+        let didTimeout = false;
+
         const timeoutId =
             setTimeout(
                 () => {
+                
+                    didTimeout = true;
                 
                     if (
                         !controller.signal.aborted
                     ) {
                     
-                        controller.abort(
-                            "Request timeout"
-                        );
+                        controller.abort();
                     }
                 
                 },
-                CONFIG.REQUEST_TIMEOUT || 20000
+                CONFIG.REQUEST_TIMEOUT || 45000
             );
 
         try {
@@ -470,27 +472,29 @@ const apiRequest =
                 "AbortError"
             ) {
             
-                console.warn(
-                    `REQUEST TIMEOUT: ${url}`
-                );
+                if (didTimeout) {
+                
+                    console.warn(
+                        `REQUEST TIMEOUT: ${url}`
+                    );
+                
+                    return {
+                    
+                        success: false,
+                    
+                        timeout: true,
+                    
+                        message:
+                            "Server is waking up. Please wait a few seconds and refresh."
+                    };
+                }
             
                 return {
                 
                     success: false,
                 
-                    timeout: true,
-                
                     message:
-                        "Server took too long to respond"
-                };
-            } {
-
-                return {
-
-                    success: false,
-
-                    message:
-                        "Request timeout"
+                        "Request was cancelled"
                 };
             }
 

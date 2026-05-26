@@ -23,7 +23,7 @@ const CONFIG = {
 
     // request settings
     REQUEST_TIMEOUT:
-        20000,
+        45000,
 
     // pagination
     PRODUCTS_PER_PAGE:
