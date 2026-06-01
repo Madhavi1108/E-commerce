@@ -365,7 +365,7 @@ const login =
 
             // inactive account
             if (
-                user.isActive === 0
+                user.is_active === 0
             ) {
 
                 return res.status(403)
