@@ -1,27 +1,20 @@
 /* HEADER */
-/* ==================== DESKTOP HEADER & NAVBAR ==================== */
 #header {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-
+    width: 99%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     padding: 20px 80px;
-
-    background: rgba(255,255,255,0.95);
-    backdrop-filter: blur(12px);
-
+    background: var(--bg-light, #ffffff);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
-
     z-index: 999;
 }
 
 #hero {
-    margin-top: 80px;
+    margin-top: 77px;
 }
 
 html, body {
@@ -218,7 +211,6 @@ html, body {
 }
 
 /* ==================== RESPONSIVE (TABLET & MOBILE) ==================== */
-
 @media (max-width: 799px) {
     #header {
         padding: 16px 24px;
@@ -346,7 +338,7 @@ footer {
     justify-content: space-between;
     background: #fafafa;
     width: 100%;
-    padding: 40px 80px; /* Thoda padding add kiya taaki desktop par acha lage */
+    padding: 40px 80px;
     box-sizing: border-box;
 }
 
@@ -397,7 +389,6 @@ footer .follow a:hover {
     color: var(--primary-color);
 }
 
-/* App Install section ki row (App Store + Play Store) */
 footer .install .row {
     display: flex;
     gap: 10px;
@@ -407,15 +398,14 @@ footer .install .row {
 footer .install .row img {
     border: 1px solid var(--primary-color);
     border-radius: 6px;
-    width: 130px; /* App buttons ka standard size fixed kiya */
+    width: 130px;
     height: auto;
 }
 
-/* ✅ Payment Gateways waali Single Image ka Fix */
 footer .install > img {
     margin: 10px 0 15px 0;
-    max-width: 100%;  /* Taaki mobile screen se badi na ho */
-    height: auto;     /* Aspect ratio kharab na ho */
+    max-width: 100%;
+    height: auto;
 }
 
 footer a:hover {
@@ -433,7 +423,7 @@ footer .copyright {
 /* RESPONSIVE */
 @media(max-width:799px) {
     footer {
-        padding: 40px 30px; /* Mobile/Tablet par edges se space banega */
+        padding: 40px 30px;
     }
 
     .profile-wrapper:hover #profile-dropdown {
@@ -457,10 +447,9 @@ footer .copyright {
 
     footer .col {
         align-items: center;
-        width: 100%; /* Pura space legi mobile par */
+        width: 100%;
     }
 
-    /* Mobile par buttons aur payment centrally align honge */
     footer .install .row {
         justify-content: center; 
     }
