@@ -577,43 +577,7 @@ function renderProduct(
     );
 }
 
-document.addEventListener("click", (event) => {
 
-    if (!event.target.classList.contains("compare-btn")) {
-        return;
-    }
-
-    const productId =
-        event.target.dataset.id;
-
-    let compareProducts =
-        JSON.parse(
-            localStorage.getItem("compareProducts")
-        ) || [];
-
-    if (
-        compareProducts.includes(productId)
-    ) {
-        alert("Product already selected");
-        return;
-    }
-
-    if (
-        compareProducts.length >= 3
-    ) {
-        alert("Maximum 3 products can be compared");
-        return;
-    }
-
-    compareProducts.push(productId);
-
-    localStorage.setItem(
-        "compareProducts",
-        JSON.stringify(compareProducts)
-    );
-
-    alert("Added for comparison");
-});
 
 // expose globally
 window.renderProduct =

@@ -238,23 +238,36 @@ if (compareBtn) {
     const id = compareBtn.dataset.id;
 
     let compareProducts =
-        JSON.parse(
-            localStorage.getItem("compareProducts")
-        ) || [];
-
+    AppUtils.getJSON(
+        "compareProducts",
+        []
+    );
     if (compareProducts.includes(id)) {
-        alert("Product already selected");
-        return;
-    }
+    AppUtils.notify(
+        "Product already selected",
+        "info"
+    );
+    return;
+}
+    if (compareProducts.length >= 3) {
+    AppUtils.notify(
+        "You can compare up to 3 products only",
+        "warning"
+    );
+    return;
+}
 
     compareProducts.push(id);
 
-    localStorage.setItem(
-        "compareProducts",
-        JSON.stringify(compareProducts)
-    );
+    AppUtils.setJSON(
+    "compareProducts",
+    compareProducts
+);
 
-    alert("Added for comparison");
+   AppUtils.notify(
+    "Added for comparison",
+    "success"
+);
 }
     }
 );
