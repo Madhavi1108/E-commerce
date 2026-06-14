@@ -142,6 +142,7 @@ function createProductCard(
                     >
                         Add Cart
                     </button>
+
                     <button
     type="button"
     class="compare-btn"
@@ -151,6 +152,17 @@ function createProductCard(
 >
     Compare
 </button>
+
+                    
+                    <button
+                        type="button"
+                        class="wishlist-btn"
+                        data-id="${product.id}"
+                        aria-label="Add to Wishlist"
+                    >
+                        <i class="${ AppUtils.getWishlist().some(item => String(item.id) === String(product.id)) ? 'fas' : 'far' } fa-heart"></i>
+                    </button>
+
                 </div>
             </div>
         </div>
@@ -186,6 +198,10 @@ function renderFeaturedProducts(
                     No featured products found
                 </p>
             `;
+
+    if (typeof initializeProductCardFeatures === "function") {
+        initializeProductCardFeatures();
+    }
 }
 
 // render new arrivals
@@ -198,10 +214,12 @@ function renderNewArrivals(
         return;
     }
 
+    // Filter out featured products to match script.js logic
     const arrivals =
-        [...products]
-            .reverse()
-            .slice(0, 8);
+        products.filter(
+            (product) =>
+                Number(product.featured) !== 1
+        ).slice(0, 8);
 
     homeArrivalsContainer.innerHTML =
         arrivals.length
@@ -215,6 +233,10 @@ function renderNewArrivals(
                     No new arrivals found
                 </p>
             `;
+
+    if (typeof initializeProductCardFeatures === "function") {
+        initializeProductCardFeatures();
+    }
 }
 
 // expose globally
