@@ -1,10 +1,33 @@
-// hero rotating text
+// hero image slider + hero rotating text
 const heroTexts = [
     "Limited Deals",
     "Value Offers",
     "Save upto 70%",
     "New Arrivals"
 ];
+
+function initHeroSlider() {
+    const slider = document.getElementById('hero-slider');
+    if (!slider) return;
+
+    const slides = Array.from(slider.querySelectorAll('.hero-slide'));
+    if (!slides.length) return;
+
+    let index = 0;
+
+    slides.forEach((img, i) => {
+        if (i === 0) img.classList.add('is-active');
+        else img.classList.remove('is-active');
+    });
+
+    setInterval(() => {
+        slides[index].classList.remove('is-active');
+        index = (index + 1) % slides.length;
+        slides[index].classList.add('is-active');
+    }, 4000);
+}
+
+initHeroSlider();
 
 let heroIndex = 0;
 const heroHeading =
@@ -61,7 +84,7 @@ if (countdown) {
 
         if (distance < 0) {
             countdown.innerHTML =
-                "Offer Expired";
+                "Offer Expired ";
 
             return;
         }
