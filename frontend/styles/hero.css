@@ -59,7 +59,7 @@ hero section
 #herotexts{
     height:90vh;
     width:40%;
-    display:flexbox;
+    display:flex;
     flex-direction: column;
     align-content:center;
     flex-wrap:wrap;
@@ -203,7 +203,7 @@ banner
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    padding: 20 80px;
+    padding: 0 80px;
     margin-top: -10px;
     margin-bottom: 40px;
 }

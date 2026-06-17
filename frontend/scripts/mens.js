@@ -19,7 +19,7 @@
             name: 'Pure Cotton Casual Slim-Fit Shirt', 
             price: 78.00, 
             image: 'assets/images/mensShirt.jpg', 
-            category: 'Shirts', 
+            category: 'shirt', 
             brand: 'Adidas',
             stock: 12, 
             rating: 5 
@@ -29,7 +29,7 @@
             name: 'Comfort Fit Classic Denim Jeans', 
             price: 96.00, 
             image: 'assets/images/mensJeans.avif', 
-            category: 'Jeans', 
+            category: 'all', 
             brand: 'Levis',
             stock: 25, 
             rating: 4 
@@ -39,7 +39,7 @@
             name: 'Modern Denim Outerwear Jacket', 
             price: 95.00, 
             image: 'assets/images/MensJacket.webp', 
-            category: 'Jackets', 
+            category: 'hoodie', 
             brand: 'Zara',
             stock: 8, 
             rating: 5 

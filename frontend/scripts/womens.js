@@ -1,5 +1,5 @@
 /**
- * E-Commerce Website - Men's Collection Logic
+ * E-Commerce Website - Women's Collection Logic
  * Handles product fetching, local fallbacks, filtering, sorting, and UI rendering.
  */
 (function() {
@@ -19,7 +19,7 @@
             name: 'Pure Traditional Vibe', 
             price: 150.00, 
             image: 'assets/images/WomenTraditional.jpeg', 
-            category: 'TraditionalWear', 
+            category: 'traditionalWear', 
             brand: 'Ekaya',
             stock: 12, 
             rating: 5 
@@ -39,7 +39,7 @@
             name: 'Compfy Tops', 
             price: 90.00, 
             image: 'assets/images/womensTop.jpg', 
-            category: 'Top', 
+            category: 'tops', 
             brand: 'Zara',
             stock: 8, 
             rating: 5 
@@ -59,14 +59,14 @@
         try {
             currentPage = page;
             if (elements.productContainer) {
-                elements.productContainer.innerHTML = `<div class="loading-products">Loading Men's collection...</div>`;
+                elements.productContainer.innerHTML = `<div class="loading-products">Loading Women's collection...</div>`;
             }
 
             // Backend URL parameters create karna
             const params = new URLSearchParams({
                 page: currentPage,
                 limit: 8,
-                gender: "men" // Backend ko batayega ki sirf men's clothing chahiye
+                gender: "women" 
             });
 
             if (currentSearch) params.append("search", currentSearch);
@@ -86,7 +86,7 @@
             applySorting();
             renderProducts(currentProducts);
         } catch (error) {
-            console.warn("MEN FETCH ERROR (Using Fallback Data):", error);
+            console.warn("WOMEN FETCH ERROR (Using Fallback Data):", error);
             // BACKEND OFF HONE PAR YEH BLOCK CHALEGA
             useFallbackData();
             applySorting();
@@ -130,7 +130,7 @@
         elements.productContainer.innerHTML = ""; // Container clear karna
 
         if (products.length === 0) {
-            elements.productContainer.innerHTML = `<p class="no-products">No products found in Men's Collection.</p>`;
+            elements.productContainer.innerHTML = `<p class="no-products">No products found in Women's Collection.</p>`;
             return;
         }
 
