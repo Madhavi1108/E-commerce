@@ -8,7 +8,7 @@ const {
     deleteProduct
 } = require("../controllers/productController");
 const authMiddleware = require("../middleware/authMiddleware");
-const { authorizeRoles } = authMiddleware;
+const { authorizeRoles } = require("../middleware/rbacMiddleware");
 const { sanitizeString, safeNumber } = require("../utils/helpers");
 
 // --------------------------------------------------------------
