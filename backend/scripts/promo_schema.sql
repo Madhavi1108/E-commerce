@@ -16,8 +16,23 @@ CREATE TABLE IF NOT EXISTS promo_codes (
     CHECK (minimum_order_amount >= 0)
 );
 
-ALTER TABLE orders 
-ADD COLUMN promo_code VARCHAR(50) DEFAULT NULL,
-ADD COLUMN discount_amount DECIMAL(10,2) DEFAULT 0.00,
-ADD COLUMN subtotal DECIMAL(10,2) DEFAULT 0.00,
-ADD COLUMN final_amount DECIMAL(10,2) DEFAULT 0.00;
+DELIMITER //
+
+CREATE PROCEDURE AddPromoColumnsToOrders()
+BEGIN
+    IF NOT EXISTS (
+        SELECT * FROM INFORMATION_SCHEMA.COLUMNS
+        WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'orders' AND COLUMN_NAME = 'promo_code'
+    ) THEN
+        ALTER TABLE orders 
+        ADD COLUMN promo_code VARCHAR(50) DEFAULT NULL,
+        ADD COLUMN discount_amount DECIMAL(10,2) DEFAULT 0.00,
+        ADD COLUMN subtotal DECIMAL(10,2) DEFAULT 0.00,
+        ADD COLUMN final_amount DECIMAL(10,2) DEFAULT 0.00;
+    END IF;
+END //
+
+DELIMITER ;
+
+CALL AddPromoColumnsToOrders();
+DROP PROCEDURE AddPromoColumnsToOrders;
