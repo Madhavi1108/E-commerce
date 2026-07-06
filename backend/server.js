@@ -5,19 +5,45 @@ const cookieParser = require("cookie-parser");
 const compression = require("compression");
 const morgan = require("morgan");
 const timeout = require("connect-timeout");
-const fs = require("fs");
-const path = require("path");
-
+const { accessLogStream, errorLogStream } = require('./src/utils/logStreams');
 const dotenv = require("dotenv");
 const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 const corsMiddleware = require("./middleware/corsMiddleware");
+// Add with other route imports
+const aiFeedRoutes = require('./routes/aiFeedRoutes');
+// Import agent routes
+const agentRoutes = require('./src/routes/agentRoutes');
 
+// Add routes
+app.use('/api/agents', agentRoutes);
+// Add AI feed routes
+app.use('/api/ai-feed', aiFeedRoutes);
 const routes = require("./routes/index");
 const authLimiter = require("./middleware/authLimiter");
 const mcpRoutes = require("./routes/mcpRoutes"); // ✅ MCP Routes added
+
 // Add with other route imports
 const performanceRoutes = require('./routes/performanceRoutes');
+
+// Import routes
+const approvalRoutes = require('./src/routes/approvalRoutes');
+const rollbackRoutes = require('./src/routes/rollbackRoutes');
+// Import security routes
+const securityRoutes = require('./src/routes/securityRoutes');
+
+// Add routes
+app.use('/api/security', securityRoutes);
+// Add routes
+app.use('/api/approvals', approvalRoutes);
+app.use('/api/rollback', rollbackRoutes);
+// Add with other route imports
+
+const aiFinancialRoutes = require('./routes/aiFinancialRoutes');
+
+// Add AI financial routes
+app.use('/api/ai/financial', aiFinancialRoutes);
+
 
 // Add performance routes
 app.use('/api/performance', performanceRoutes);
@@ -28,11 +54,25 @@ const copywriterRoutes = require('./routes/copywriterRoutes');
 // Add copywriter routes
 app.use('/api/copywriter', copywriterRoutes);
 // Add with other imports
+
 const { detectBot, addBotDetectionHeaders } = require('./middleware/botProtectionMiddleware');
 
 // Add after other middleware
 app.use(addBotDetectionHeaders);
 app.use(detectBot);
+
+const { verifyAICrawler } = require('./middleware/aiCrawlerMiddleware');
+
+
+// Add after other middleware
+app.use(verifyAICrawler);
+
+// Add with other route imports
+const fraudRoutes = require('./routes/fraudRoutes');
+
+// Add fraud routes
+app.use('/api/fraud', fraudRoutes);
+
 
 const aiRoutes = require('./routes/aiRoutes');
 
@@ -58,21 +98,7 @@ const PORT = Number(process.env.PORT) || 5000;
 const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5500";
 
 // create logs directory
-const logDir = path.join(__dirname, "logs");
-if (!fs.existsSync(logDir)) {
-    fs.mkdirSync(logDir, { recursive: true });
-}
 
-// request logging with morgan
-const accessLogStream = fs.createWriteStream(
-    path.join(logDir, "access.log"),
-    { flags: "a" }
-);
-
-const errorLogStream = fs.createWriteStream(
-    path.join(logDir, "errors.log"),
-    { flags: "a" }
-);
 
 // custom morgan tokens
 morgan.token("user-id", (req) => req.user?.id || "anonymous");

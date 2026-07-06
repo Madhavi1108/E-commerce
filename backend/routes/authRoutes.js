@@ -1,7 +1,7 @@
 // backend/routes/authRoutes.js
 const express = require("express");
 const router = express.Router();
-
+const cookieOptions = require("../config/cookieOptions");
 // ======================== CONTROLLERS ========================
 const {
     signup,
@@ -21,7 +21,8 @@ const {
     forgotPasswordLimiter, 
     refreshTokenLimiter 
 } = require("../middleware/rateLimiter");
-const { verifyHumanChallenge } = require("../middleware/behavioralCaptcha");
+const { applyCaptchaCheck } = require("../middleware/captchaMiddleware");
+const { detectSyntheticIdentity } = require("../middleware/fraudDetectionMiddleware");
 
 // ======================== DATABASE ========================
 const db = require("../config/db").promise;
@@ -51,30 +52,6 @@ function validateRequiredFields(req, res, fields) {
     return null;
 }
 
-/**
- * Apply behavioral CAPTCHA check
- */
-function applyCaptchaCheck(req, res, next) {
-    if (process.env.ENABLE_BEHAVIORAL_CAPTCHA === 'true') {
-        const captchaResult = verifyHumanChallenge(req);
-        
-        if (!captchaResult.passed) {
-            console.warn(`🛡️ CAPTCHA failed for ${req.ip} on ${req.path}: ${captchaResult.reason}`);
-            
-            const statusCode = captchaResult.reason === 'rate_limit_exceeded' ? 429 : 403;
-            return res.status(statusCode).json({
-                success: false,
-                message: captchaResult.reason === 'rate_limit_exceeded' 
-                    ? 'Too many requests. Please slow down.' 
-                    : 'Automated access detected. Please verify you are human.',
-                retryAfter: captchaResult.retryAfter || 60,
-                score: captchaResult.score
-            });
-        }
-    }
-    next();
-}
-
 // ======================== ROUTES ========================
 
 /**
@@ -86,20 +63,26 @@ router.get("/status", (req, res) => {
         success: true,
         message: "Auth API running",
         timestamp: new Date().toISOString(),
-        version: "2.0.0"
+        version: "2.1.0",
+        security: {
+            behavioralCaptcha: process.env.ENABLE_BEHAVIORAL_CAPTCHA === 'true',
+            syntheticFraudDetection: true,
+            rateLimiting: true
+        }
     });
 });
 
 /**
  * POST /api/auth/signup
- * Register new user
+ * Register new user with synthetic identity fraud detection
  */
 router.post(
     "/signup",
     signupLimiter,
     applyCaptchaCheck,
+    detectSyntheticIdentity,  // ✅ FRAUD DETECTION ADDED
     (req, res, next) => {
-        const { name, email, password } = req.body;
+        const { name, email, password, age } = req.body;
 
         // Validate all required fields
         const validationError = validateRequiredFields(req, res, ['name', 'email', 'password']);
@@ -126,6 +109,14 @@ router.post(
             return res.status(400).json({
                 success: false,
                 message: "Invalid email format"
+            });
+        }
+
+        // Age validation (if provided)
+        if (age && (age < 18 || age > 100)) {
+            return res.status(400).json({
+                success: false,
+                message: "Age must be between 18 and 100"
             });
         }
 
@@ -305,8 +296,8 @@ router.post(
             );
 
             // Clear cookies if using cookie-based auth
-            res.clearCookie('accessToken');
-            res.clearCookie('refreshToken');
+            res.clearCookie('accessToken',cookieOptions);
+            res.clearCookie('refreshToken',cookieOptions);
 
             console.log(`🔓 User ${req.user.id} logged out successfully`);
 
@@ -473,6 +464,53 @@ router.get(
             return res.status(500).json({
                 success: false,
                 message: "Failed to fetch security logs"
+            });
+        }
+    }
+);
+
+/**
+ * GET /api/auth/fraud-status
+ * Get fraud detection status for current user (authenticated)
+ */
+router.get(
+    "/fraud-status",
+    authMiddleware,
+    async (req, res) => {
+        try {
+            const [detection] = await db.query(
+                `SELECT risk_level, risk_score, confidence, timestamp 
+                 FROM synthetic_identity_detections 
+                 WHERE user_id = ? 
+                 ORDER BY timestamp DESC 
+                 LIMIT 1`,
+                [req.user.id]
+            );
+
+            if (detection.length === 0) {
+                return res.status(200).json({
+                    success: true,
+                    message: "No fraud detection records found",
+                    status: "clean"
+                });
+            }
+
+            const isFlagged = detection[0].risk_level === 'critical' || 
+                             detection[0].risk_level === 'high';
+
+            return res.status(200).json({
+                success: true,
+                data: detection[0],
+                isFlagged,
+                status: isFlagged ? 'flagged' : 'clean',
+                timestamp: new Date().toISOString()
+            });
+
+        } catch (error) {
+            console.error("❌ FRAUD STATUS ERROR:", error);
+            return res.status(500).json({
+                success: false,
+                message: "Failed to fetch fraud status"
             });
         }
     }
