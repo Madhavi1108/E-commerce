@@ -1,7 +1,7 @@
 // backend/routes/authRoutes.js
 const express = require("express");
 const router = express.Router();
-
+const { isValidOTP } = require("../utils/otpvalidators");
 // ======================== CONTROLLERS ========================
 const {
     signup,
@@ -164,7 +164,7 @@ router.post(
         if (validationError) return validationError;
 
         // OTP should be 6 digits
-        if (!/^\d{6}$/.test(otp)) {
+        if (!isValidOTP(otp)) {
             return res.status(400).json({
                 success: false,
                 message: "OTP must be 6 digits"
@@ -255,7 +255,8 @@ router.post(
         }
 
         // OTP should be 6 digits
-        if (!/^\d{6}$/.test(otp)) {
+        // OTP should be 6 digits
+        if (!isValidOTP(otp)) {
             return res.status(400).json({
                 success: false,
                 message: "OTP must be 6 digits"
