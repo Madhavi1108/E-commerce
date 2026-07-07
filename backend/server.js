@@ -14,7 +14,15 @@ const corsMiddleware = require("./middleware/corsMiddleware");
 const aiFeedRoutes = require('./routes/aiFeedRoutes');
 // Import agent routes
 const agentRoutes = require('./src/routes/agentRoutes');
+// Import legal routes
+const legalRoutes = require('./src/routes/legalRoutes');
+// Add with other route imports
+const aiLegalRoutes = require('./routes/aiLegalRoutes');
 
+// Add AI Legal routes
+app.use('/api/ai-legal', aiLegalRoutes);
+// Add routes
+app.use('/api/legal', legalRoutes);
 // Add routes
 app.use('/api/agents', agentRoutes);
 // Add AI feed routes
