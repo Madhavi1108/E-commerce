@@ -43,7 +43,15 @@ app.use('/api/ai-feed', aiFeedRoutes);
 const routes = require("./routes/index");
 const authLimiter = require("./middleware/authLimiter");
 const mcpRoutes = require("./routes/mcpRoutes"); // ✅ MCP Routes added
+// Add with other route imports
+const eventRoutes = require('./routes/eventRoutes');
+const { setupAllSubscribers } = require('./services/eventSubscribers');
 
+// Add event routes
+app.use('/api/events', eventRoutes);
+
+// Setup event subscribers after all services are initialized
+setupAllSubscribers();
 // Add with other route imports
 const performanceRoutes = require('./routes/performanceRoutes');
 
