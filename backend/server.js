@@ -16,7 +16,15 @@ const corsMiddleware = require("./middleware/corsMiddleware");
 const routes = require("./routes/index");
 const authLimiter = require("./middleware/authLimiter");
 const mcpRoutes = require("./routes/mcpRoutes"); // ✅ MCP Routes added
+// Add with other route imports
+const pluginRoutes = require('./routes/pluginRoutes');
+const { pluginSystem } = require('./services/pluginSystemService');
 
+// Initialize plugin system
+await pluginSystem.initialize();
+
+// Add plugin routes
+app.use('/api/plugins', pluginRoutes);
 // Add with other route imports
 
 const copywriterRoutes = require('./routes/copywriterRoutes');
