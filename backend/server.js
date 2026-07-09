@@ -12,7 +12,15 @@ const dotenv = require("dotenv");
 const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 const corsMiddleware = require("./middleware/corsMiddleware");
+// Add with other imports
+const responseExampleRoutes = require('./routes/responseExampleRoutes');
+const { standardizeResponse } = require('./middleware/responseStandardizer');
 
+// Add response standardization middleware BEFORE routes
+app.use(standardizeResponse);
+
+// Add response example routes (for testing)
+app.use('/api/response-example', responseExampleRoutes);
 const routes = require("./routes/index");
 const authLimiter = require("./middleware/authLimiter");
 const mcpRoutes = require("./routes/mcpRoutes"); // ✅ MCP Routes added
